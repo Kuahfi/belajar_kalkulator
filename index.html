@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let layar = document.getElementById('layar');
+            let buttons = document.querySelectorAll('.tombol');
+            let currentInput = '';
+            let operatorPressed = false;
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function () {
+                    let buttonValue = this.textContent;
+
+                    if (buttonValue === 'C') {
+                        currentInput = '';
+                        layar.value = '';
+                        operatorPressed = false;
+                        return;
+                    }
+
+                    if (buttonValue === '<') {
+                        currentInput = currentInput.slice(0, -1);
+                        layar.value = currentInput;
+                        return;
+                    }
+
+                    if (buttonValue === '=') {
+                        try {
+                            currentInput = eval(currentInput).toString();
+                            layar.value = currentInput;
+                        } catch {
+                            layar.value = 'Error';
+                            currentInput = '';
+                        }
+                        operatorPressed = false;
+                        return;
+                    }
+
+                    if (['+', '-', '*', '/', '.'].includes(buttonValue)) {
+                        if (operatorPressed) {
+                            currentInput = currentInput.slice(0, -1);
+                        } else {
+                            operatorPressed = true;
+                        }
+                    } else {
+                        operatorPressed = false;
+                    }
+
+                    currentInput += buttonValue;
+                    layar.value = currentInput;
+                });
+            });
+        });
+    </script>
+    
+</head>
+<body>
+    <div class="kalkulator">
+        <input type="text" id="layar">
+
+        <div class="container-btn">
+            <span class="tombol operator">C</span>
+            <span class="tombol operator"><</span>
+            <span class="tombol operator">.</span>
+            <span class="tombol operator">/</span>
+            <span class="tombol">7</span>
+            <span class="tombol">8</span>
+            <span class="tombol">9</span>
+            <span class="tombol operator">*</span>
+            <span class="tombol">4</span>
+            <span class="tombol">5</span>
+            <span class="tombol">6</span>
+            <span class="tombol operator">+</span>
+            <span class="tombol">1</span>
+            <span class="tombol">2</span>
+            <span class="tombol">3</span>
+            <span class="tombol operator">-</span>
+            <span class="tombol" id="nol">0</span>
+            <span class="tombol" id="hitung">=</span>
+        </div>
+    </div>
+</body>
+</html>
